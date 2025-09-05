@@ -1,21 +1,16 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 int main()
 {
-    int iInput(0), iSum(0);
-    cin >> iInput;
+	int a = 0, b = 1, c = 0;
+	cin >> a;
 
-    while (true)
-    {
-        iSum += iInput;
-        --iInput;
-        if (iInput == 0)
-        {
-            cout << iSum;
-            break;
-        }
-    }
-    
-    return 0;
+	for (int i = 0; i < a; i++)
+	{
+		c += b;
+		++b;
+	}
+
+	cout << c << "\n";
 }
