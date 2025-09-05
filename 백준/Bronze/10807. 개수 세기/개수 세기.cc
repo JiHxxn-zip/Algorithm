@@ -1,24 +1,26 @@
-
-#include<iostream>
+#include <iostream>
 using namespace std;
+
 int main()
 {
-	int iSelect(0), iSelect2(0), iCount(0);
-	cin >> iSelect;
+	int a = 0, c = 0, d = 0;
+	int b[101];
+	cin >> a;
 
-	int iArray[101]{};
-	for (int i = 0; i < iSelect; i++)
+	for (int i = 0; i < a; i++)
 	{
-		cin >> iArray[i];
+		cin >> b[i];
 	}
 
-	cin >> iSelect2;
+	cin >> c;
 
-	for (int i = 0; i < iSelect; i++)
+	for (int i = 0; i < a; i++)
 	{
-		iCount = iSelect2 == iArray[i] ? iCount + 1 : iCount;
+		if (c == b[i])
+		{
+			++d;
+		}
 	}
-	
-	cout << iCount;
-    return 0;
- }
+	cout << d;
+
+}
