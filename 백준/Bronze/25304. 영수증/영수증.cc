@@ -1,26 +1,20 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 int main()
 {
-    int iSum(0), iCount(0), iMoney(0), iMoneyCount(0), iResult(0);
-    cin >> iSum;
-    cin >> iCount;
+	int a = 0, b = 1, c = 0, d = 0;
+	cin >> a;
+	cin >> b;
 
-    for (int i = 0; i < iCount; ++i)
-    {
-	    cin >> iMoney >> iMoneyCount;
+	for (int i = 0; i < b; i++)
+	{
+		cin >> c >> d;
+		a -= c * d;
+	}
 
-	    iResult += iMoney * iMoneyCount;
-    }
-    
-    if (iResult == iSum)
-    {
-	    cout << "Yes" << endl;
-    }
-    else
-    {
-	    cout << "No" << endl;
-    }
-    return 0;
+	if (a == 0)
+		cout << "Yes";
+	else
+		cout << "No";
 }
