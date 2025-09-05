@@ -1,18 +1,14 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 int main()
 {
-    int iInput(0);
-    int iA(0), iB(0);
-    cin >> iInput;
+	int a = 0, b = 0, c= 0;
+	cin >> a;
 
-    for (int i = 0; i < iInput; ++i)
-    {
-        cin >> iA >> iB;
-
-        cout << iA+iB<< endl;
-    }
-    
-    return 0;
+	for (int i = 0; i < a; i++)
+	{
+		cin >> b >> c;
+		cout << b + c << "\n";
+	}
 }
