@@ -1,14 +1,13 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 int main()
 {
-    int iInput(0);
-cin >> iInput;
+	int a = 0;
+	cin >> a;
 
-for (int i = 1; i <= 9; ++i)
-{
-    cout << iInput << " * " << i << " = " <<iInput * i << endl;
-}
-    return 0;
+	for (int i = 1; i < 10; i++)
+	{
+		cout << a << " * " << i << " = " << a * i << "\n";
+	}
 }
