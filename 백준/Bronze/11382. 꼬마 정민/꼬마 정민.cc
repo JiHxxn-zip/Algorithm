@@ -1,12 +1,11 @@
-#include<iostream>
+#include <iostream>
+
 using namespace std;
 
-int main()
-{
-    long long iA(0), iB(0), iC(0);
-    cin >> iA >> iB >> iC;
+int main() {
+  long long a, b, c;
 
-    cout << iA + iB + iC;
-    
-    return 0;
+  cin >> a >> b >> c;
+
+  cout << a + b + c;
 }
