@@ -1,19 +1,22 @@
 #include <string>
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 bool solution(string s)
-{
-    int count = 0;
-    
-    for (int i = 0; i < s.size(); i++){
-        s[i] = tolower(s[i]);
-        if (s[i] == 'p') count++;
-        else if (s[i] == 'y') count--;
-    }
-    
-    if (count == 0) return 1;
-    else return 0;
-    
+{ 
+    bool answer = true;
+
+ int pCount{ 0 };
+ int yCount{ 0 };
+
+ for (size_t i = 0; i < s.size(); i++)
+ {
+     if (s[i] == 'p' || s[i] == 'P')
+         ++pCount;
+     else if (s[i] == 'y' || s[i] == 'Y')
+         ++yCount;
+ }
+ answer = pCount == yCount;
+
+ return answer;
 }
