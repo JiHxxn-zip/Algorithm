@@ -2,14 +2,20 @@
 
 using namespace std;
 
-int main(void) {
-    int n, m;
-    cin >> n >> m;
-    for(int i = 0; i < m; ++i) {
-        for(int j = 0; j < n; ++j) {
-            cout << '*';
+int main(void) 
+{
+    int a;
+    int b;
+    cin >> a >> b;
+
+    for (size_t i = 0; i < b; i++)
+    {
+        for (size_t j = 0; j < a; j++)
+        {
+            cout << "*";
         }
-        cout<< endl;
+            cout << "\n";
     }
+
     return 0;
-}
+}   
