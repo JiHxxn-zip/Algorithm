@@ -5,65 +5,64 @@
 #include "algorithm"
 using namespace std;
 
-int board[502][502] = {};
-bool vis[502][502] = {};
-int bist[502][502] = {};
-int dx[4] = { 1, 0, -1, 0 };
-int dy[4] = { 0, 1, 0, -1 };
+// 필요 속성 : 보드, 방문 기록, 위치 카운터, 상하좌우
+int board[502][502];
+bool vis[502][502];
+int dist[502][502];
+
+int dx[4] = { 0, 0, -1, 1 };
+int dy[4] = { 1, -1, 0, 0 };
 
 int solution(vector<vector<int> > maps)
 {
- int n = 0;
- n = maps[0].size();
- int m = 0;
- m =  maps.size();
+    // 매 판 보드의 크기가 달라질 것이 때문에 행과 열을 저장해줄 변수
+    int row = maps.size();
+    int col = maps[0].size();
 
- // board 셋팅
- for (size_t i = 0; i < maps.size(); i++)
- {
-     int j = 0;
-     for (auto p : maps[i])
-     {
-         board[i][j] = p;
-         ++j;
-     }
- }
+    // 주어진 mpas로 보드 셋팅
+    for (size_t i = 0; i < maps.size(); i++)
+    {
+        for (size_t j = 0; j < maps[i].size(); j++)
+            board[i][j] = maps[i][j];
+    }
+   
+    // 순회를 돌 좌표를 저장해줄 q
+    queue < pair<int, int>> q;
 
- //
- queue<pair<int, int>> q;
- 
- // 첫 위치
- vis[0][0] = 1;
- bist[0][0] = 1;
- q.push({ 0, 0 });
+    // 시작 방문 지점 체크
+    vis[0][0] = 1;
+    dist[0][0] = 1;
 
- int count{ 0 };
+    // q 시작 지점 삽입
+    q.push({ 0,0 });
 
- while (!q.empty())
- {
-     pair<int, int> cur = q.front();
-     q.pop();
+    // q의 순회를 도와줄 while
+    while (!q.empty())
+    {
+        // q에서 원소를 뽑아줌 -> front, pop
+        auto cur = q.front();
+        q.pop();
 
-     for (int i = 0; i < 4; i++)
-     {
-         // 상하 좌우
-         int nx = cur.second + dx[i];
-         int ny = cur.first + dy[i];
+        // 상하좌우 검수
+        for (size_t i = 0; i < 4; i++)
+        {
+            // 다음 이동할 지점 셋팅
+            int ny = cur.first + dy[i];
+            int nx = cur.second + dx[i];
 
-         // 그리드 밖을 나갔거나, 가려는 지점이 0보다 작을 때 continue
-         if (nx < 0 || nx >= n || ny < 0 || ny >= m)
-             continue;
+            // 예외처리
+            if (ny < 0 || ny >= row || nx < 0 || nx >= col) continue; // 벽 밖으로 못 나가게 셋팅
+            if (vis[ny][nx] == 1 || board[ny][nx] == 0) continue; // 방문된 곳 or 갈 수 없는 곳(0) 셋팅
 
-         // 이미 방문한 곳이거나 갈 수 없는 위치(1이 아니면) continue
-         if (vis[ny][nx] || board[ny][nx] != 1)
-             continue;
+            // 방문 기록 및 q에 다음 지점 삽입
+            vis[ny][nx] = 1;
+            dist[ny][nx] = dist[cur.first][cur.second] + 1;
 
-         vis[ny][nx] = 1;
-         bist[ny][nx] = bist[cur.first][cur.second] + 1;
-         q.push({ ny, nx});
-     }
+            q.push({ ny,nx });
+        }
 
- }
+    }
 
-    return bist[m - 1][n - 1] == 0 ? -1 : bist[m - 1][n - 1];
+    // 보드 끝(row,col)의 dist값이 0이면 -1 반환, 아니면 저장된 값 반환 
+    return dist[row - 1][col - 1] == 0 ? -1 : dist[row - 1][col - 1];
 }
