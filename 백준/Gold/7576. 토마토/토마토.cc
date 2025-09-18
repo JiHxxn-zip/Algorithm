@@ -1,84 +1,81 @@
-#include<iostream>
-#include<queue>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include "algorithm"
 using namespace std;
 
-string strBoard[102];
-int iBoard[1002][1002];
-int iDist[1002][1002];
+int board[1002][1002];
+int dist[1002][1002];
 
-int dx[4]{ 1, 0, -1, 0 };
-int dy[4]{ 0, 1, 0 ,-1 };
+int dx[4] = { 0, 0, -1, 1 };
+int dy[4] = { 1, -1, 0, 0 };
 
-int n(0), m(0);
+int row{}, col{};
 
-
-void BFS(queue<pair<int, int>> q);
-
-int main()
+int main(void)
 {
-	ios_base::sync_with_stdio(0);
-	cin.tie(0);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cin >> col >> row;
 
-	queue<pair<int, int>> q;
+    queue<pair<int, int>> q;
+ 
+    for (size_t i = 0; i < row; i++)
+    {
+        for (size_t j = 0; j < col; j++)
+        {
+            cin >> board[i][j];
 
-	cin >> m >> n;
-	for (int i = 0; i < n; ++i)
-	{
-		for (int j = 0; j < m; ++j)
-		{
-			cin >> iBoard[i][j];
+            // 만약 board 전수 검사 시 1이 나오면 Start Pos임
+            if (board[i][j] == 1)
+                q.push({ i,j });
 
-			if (iBoard[i][j] == 1)
-				q.push({ i,j });	// 시작점을 저장
+            // 갈 수 있는 지역을 -1로 
+            if (board[i][j] == 0)
+                dist[i][j] = -1;
+        }
+    }
 
-			if (iBoard[i][j] == 0)	// 갈 수 있는 위치면
-				iDist[i][j] = -1;	// dist엔 -1로 저장
-		}
-	}
+    while (!q.empty())
+    {
+        auto cur = q.front();
+        q.pop();
 
-	BFS(q);
+        for (size_t i = 0; i < 4; i++)
+        {
+            int nx = cur.second + dx[i];
+            int ny = cur.first + dy[i];
 
-	return 0;
-}
+            if (nx < 0 || nx >= col || ny < 0 || ny >= row)
+                continue;
+            if (dist[ny][nx] >= 0)
+                continue;
 
-void BFS(queue<pair<int, int>> q)
-{
-	while (!q.empty())
-	{
-		pair<int, int> temp = q.front();
-		q.pop();
+            // 핵심
+            dist[ny][nx] = dist[cur.first][cur.second] + 1; 
+            q.push({ ny, nx });
+        }
+    }
 
-		for (int i = 0; i < 4; ++i)
-		{
-			int mx = temp.first + dx[i];
-			int my = temp.second + dy[i];
+    int answer{};
 
-			if (mx < 0 || mx >= n || my < 0 || my >= m)
-				continue;
-			
-			if(0 <= iDist[mx][my])
-				continue;
+    for (size_t i = 0; i < row; i++)
+    {
+        for (size_t j = 0; j < col; j++)
+        {
+            if (dist[i][j] == -1)
+            {
+                cout << "-1";
+                return 0;
+            }
 
-			iDist[mx][my] = iDist[temp.first][temp.second] + 1;
-			q.push({ mx, my });
-		}
-	}
+            // 가장 큰 값 저장
+            answer = max(answer, dist[i][j]);
+        }
+    }
 
-	int iAnswer(0);
+    cout << answer;
 
-	for (int i = 0; i < n; ++i)
-	{
-		for (int j = 0; j < m; ++j)
-		{
-			if (iDist[i][j] == -1)
-			{
-				cout << "-1";
-				return;
-			}
-
-			iAnswer = max(iAnswer, iDist[i][j]);
-		}
-	}
-
-	cout << iAnswer;
-}
+    return 0;
+}       
