@@ -1,78 +1,79 @@
-#include<iostream>
-#include<queue>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include "algorithm"
 using namespace std;
 
+int board[502][502];
+int vis[502][502];
 
-int iBoard[502][502];
-bool bVisit[502][502];
+int dx[4] = { 0, 0, -1, 1 };
+int dy[4] = { 1, -1, 0, 0 };
 
-int dx[4]{ 1, 0, -1, 0 };
-int dy[4]{ 0, 1, 0 ,-1 };
+int row{}, col{};
 
-int n(0), m(0);
-int iDraw(0), iMax(0);
-
-void BFS();
-
-int main()
+int main(void)
 {
-	//ios_base::sync_with_stdio(false);
-	//cin.tie(false);
-	
-	cin >> n >> m;
-	for (int i = 0; i < n; ++i)
-	{
-		for (int j = 0; j < m; ++j)
-			cin >> iBoard[i][j];
-	}
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cin >> row >> col;
 
-	BFS();
+    for (size_t i = 0; i < row; i++)
+        for (size_t j = 0; j < col; j++)
+            cin >> board[i][j];
 
-	cout << iDraw << endl << iMax;
-	return 0;
-}
+    int mx{};   // 그림의 최대 범위 
+    int num{};  // 그림의 수
 
-void BFS()
-{
-	for (int i = 0; i < n; ++i)
-	{
-		for (int j = 0; j < m; ++j)
-		{
-			if (iBoard[i][j] == 0 || bVisit[i][j])
-				continue;
+    for (size_t i = 0; i < row; i++)
+    {
+        for (size_t j = 0; j < col; j++)
+        {
+            if (board[i][j] == 0 || vis[i][j] == true)
+                continue;
 
-			++iDraw; // 지역에 첫 방문
-			queue<pair<int, int>> q;
-			q.push({ i,j });
+            // 그림의 수를 체크
+            ++num;
 
-			bVisit[i][j] = true;
+            queue<pair<int, int>> q;
+            q.push({ i,j });
 
-			int iCount(0);
-			while (!q.empty())
-			{
-				++iCount;
+            // 방문 체크
+            vis[i][j] = 1;
 
-				pair<int, int> temp = q.front();
-				q.pop();
+            int area{};
+            
+            while (!q.empty())
+            {
+                // 그림 하나의 크기를 세어준다.
+                ++area;
 
-				for (int k = 0; k < 4; ++k)
-				{
-					int mx = temp.first + dx[k];
-					int my = temp.second + dy[k];
+                auto cur = q.front();
+                q.pop();
 
-					if (mx < 0 || mx > n || my < 0 || my > m)
-						continue;
+                for (size_t i = 0; i < 4; i++)
+                {
+                    int nx = cur.second + dx[i];
+                    int ny = cur.first + dy[i];
 
-					if (iBoard[mx][my] == 0 || bVisit[mx][my])
-						continue;
+                    if (nx < 0 || nx >= col || ny < 0 || ny >= row)
+                        continue;
+                    if (vis[ny][nx] == 1 || board[ny][nx] == 0)
+                        continue;
 
-					q.push({ mx, my });
-					bVisit[mx][my] = true;
-				}
+                    vis[ny][nx] = 1;
+                    q.push({ ny, nx });
 
-			}
+                }
+            }
 
-			iMax = iMax < iCount ? iCount : iMax;
-		}
-	}
-}
+            // 각 그림마다 영억의 크기중 가장 큰 그림을 저장
+            mx = max(mx, area);
+        }
+    }
+
+    cout << num << '\n' << mx;
+
+    return 0;
+}       
