@@ -23,11 +23,11 @@ int main(void)
     cin >> row >> col;
 
     // 갈 수 없는 지역 셋팅
-    for (size_t i = 0; i < row; i++)
-    {
-        fill(f_Dist[i], f_Dist[i] + col, -1);
-        fill(j_Dist[i], j_Dist[i] + col, -1);
-    }
+    //for (size_t i = 0; i < row; i++)
+    //{
+    //    fill(f_Dist[i], f_Dist[i] + col, -1);
+    //    fill(j_Dist[i], j_Dist[i] + col, -1);
+    //}
 
     // Board 셋팅
     for (size_t i = 0; i < row; i++)
@@ -40,7 +40,7 @@ int main(void)
             if (board[i][j] == 'F')
             {
                 q.push({ i, j });
-                f_Dist[i][j] = 0;
+                f_Dist[i][j] = 1;
             }
     
     // 불 BFS 시작
@@ -56,7 +56,7 @@ int main(void)
 
             if (nx < 0 || nx >= col || ny < 0 || ny >= row)
                 continue;
-            if (f_Dist[ny][nx] >= 0 || board[ny][nx] == '#')
+            if (f_Dist[ny][nx] > 0 || board[ny][nx] == '#')
                 continue;
 
             f_Dist[ny][nx] = f_Dist[cur.first][cur.second] + 1;
@@ -69,7 +69,7 @@ int main(void)
             if (board[i][j] == 'J')
             {
                 q.push({ i, j });
-                j_Dist[i][j] = 0;
+                j_Dist[i][j] = 1;
             }
 
     // 탈출 위치 저장
@@ -88,16 +88,17 @@ int main(void)
 
             if (nx < 0 || nx >= col || ny < 0 || ny >= row)
             {
-                cout << j_Dist[cur.first][cur.second] + 1;
+                cout << j_Dist[cur.first][cur.second];
                 return 0;
             }
     
-            if (j_Dist[ny][nx] >= 0 || board[ny][nx] == '#')
+            if (j_Dist[ny][nx] > 0 || board[ny][nx] == '#')
                 continue;
+
             int nextTime = j_Dist[cur.first][cur.second] + 1;
 
             // 지훈이가 가려는 위치에 불이 존재하고, 불이 먼저왔다면(숫자가 작다면)
-            if (f_Dist[ny][nx] != -1 && f_Dist[ny][nx] <= nextTime)
+            if (f_Dist[ny][nx] != 0 && f_Dist[ny][nx] <= nextTime)
                 continue;
 
             j_Dist[ny][nx] = j_Dist[cur.first][cur.second] + 1;
