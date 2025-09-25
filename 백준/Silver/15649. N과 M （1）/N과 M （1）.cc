@@ -1,37 +1,34 @@
 #include <iostream>
-#include <vector>
-#include "algorithm"
 using namespace std;
 
 int n, m;
-bool vis[10];
 int answer[10];
+int vis[10];
 
-// 현재 인덱스와, 사용된 숫자
-void DFS(int curIndex)
+void DFS(int depth)
 {
-    // m과 현재 인덱스와 같을 때 출력
-    if (m == curIndex)
+    // 현재 깊이와 m이 같다면 출력 후 리턴(더 이상 깊어 지지 않도록)
+    if (depth == m)
     {
-        for (size_t i = 0; i < m; i++)
+        for (int i = 0; i < m; ++i)
             cout << answer[i] << ' ';
         
         cout << '\n';
         return;
     }
 
+    // 깊이 탐색(백트래킹)
     for (size_t i = 0; i < n; i++)
     {
-        if (vis[i] == false)
+        if (!vis[i]) 
         {
-            answer[curIndex] = i + 1;
-
+            answer[depth] = i + 1;
             vis[i] = true;
-            DFS(curIndex + 1);
+            DFS(depth + 1);
             vis[i] = false;
+
         }
     }
-
     return;
 }
 
@@ -42,9 +39,7 @@ int main(void)
 
     cin >> n >> m;
 
-    // 1부터 n번까지 자연수를 중복없이 m개의 수열
     DFS(0);
 
     return 0;
-}       
-
+}
