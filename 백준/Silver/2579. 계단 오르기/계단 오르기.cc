@@ -27,20 +27,14 @@
         }
 
 
-        /*b[0] = a[0];
+        b[0] = a[0];
         b[1] = a[1];
         b[2] = a[2];
 
         for (size_t i = 3; i < n; i++)
-            b[i] = min(b[i-2], b[i-3]) + a[i];*/
+            b[i] = min(b[i-2], b[i-3]) + a[i];
 
-        b[0] = a[0];
-        b[1] = a[0] + a[1];
-
-        for (size_t i = 2; i < n; i++)
-            b[i] = max(b[i-2], b[i-3] + a[i-1]) + a[i];
-
-        cout << b[n - 1];
+        cout << tot - min(b[n-2], b[n-3]);
 
         return 0;
     }
