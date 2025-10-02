@@ -1,80 +1,75 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <climits>    // INT_MAX
-using namespace std;
+    using namespace std;
+    #include <iostream>
+    #include <algorithm>
+    #include <vector>
+    #include <climits>    
 
-int n, m;
+    int board[51][51];
+    int n, m;
+    int mn = INT_MAX;
+    vector<pair<int, int>> house;
+    vector<pair<int, int>> chicken;
 
-int board[51][51];
+    // 선택된 치킨 집 관리
+    vector<int> selected;
 
-vector<pair<int, int>> chicken;
-vector<pair<int, int>> house;
+    void DFS(int idx, int depth);
 
-// 최소값을 뽑아줄 거기 때문에 intMax값으로 초기화
-int mn = INT_MAX;
-
-void DFS(int idx, int cnt);
-// 선택된 치킨집 인덱스를 담는 벡터
-vector<int> selected;
-
-int main(void)
-{
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-
-    cin >> n >> m;
-
-    // Board 및 치킨집, 집 초기화
-    for (size_t i = 0; i < n; i++)
+    int main() 
     {
-        for (size_t j = 0; j < n; j++)
-        {
-            cin >> board[i][j];
-            
-            if (board[i][j] == 1)
-                house.push_back({i, j});
-            else if (board[i][j] == 2)
-                chicken.push_back({i, j});
-        }
-    }
-    
-    DFS(0, 0);
-    cout << mn;
+        ios::sync_with_stdio(false);
+        cin.tie(0);
 
-    return 0;
-}
+        cin >> n >> m;
 
-// 현재 선택 개수, 시작 인덱스
-void DFS(int idx, int cnt) 
-{
-    // DFS 예외처리
-    if (cnt == m) 
-    {
-        // 치킨 거리 계산
-        int dist = 0;
-        for (auto h : house) 
+        for (size_t i = 0; i < n; i++)
         {
-            int temp = INT_MAX;
-            for (int c : selected) 
+            for (size_t j = 0; j < n; j++)
             {
-                temp = min(temp,
-                    abs(chicken[c].first - h.first) +
-                    abs(chicken[c].second - h.second));
+                cin >> board[i][j];
+
+                if (board[i][j] == 1)
+                    house.push_back({ i, j });
+                if (board[i][j] == 2)
+                    chicken.push_back({ i, j });
             }
-            dist += temp;
         }
-        mn = min(mn, dist);
-        return;
+
+        DFS(0, 0);
+
+        cout << mn;
+
+        return 0;
     }
 
-    if (idx >= (int)chicken.size()) return;
+    void DFS(int idx, int depth)
+    {
+        if (m == depth)
+        {
+            int dist{};
+            for (auto h : house)
+            {
+                int temp = INT_MAX;
+                for (int c : selected)
+                {
+                    temp = min(temp, 
+                        abs(chicken[c].first - h.first) + 
+                        abs(chicken[c].second - h.second));
+                }
 
-    // 1. 현재 idx 치킨집을 선택
-    selected.push_back(idx);
-    DFS(idx + 1, cnt + 1);
-    selected.pop_back();
+                dist += temp;
+            }
 
-    // 2. 현재 idx 치킨집을 선택하지 않음
-    DFS(idx + 1, cnt);
-}
+            mn = min(mn, dist);
+            return;
+        }
+
+        if (idx >= chicken.size())
+            return;
+
+        selected.push_back(idx);
+        DFS(idx+1, depth+1);
+        selected.pop_back();
+
+        DFS(idx + 1, depth);
+    }
