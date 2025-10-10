@@ -4,6 +4,8 @@
 #include <climits>
 using namespace std;
 
+typedef long long ll;
+
 int main(void)
 {
     ios::sync_with_stdio(0);
@@ -13,34 +15,36 @@ int main(void)
     cin >> k >> n;
 
     vector<int> vec(k);
-    int max_len{};
+    int mx{};
     for (int i = 0; i < k; i++)
     {
         cin >> vec[i];
-        max_len = max(max_len, vec[i]);
+        mx = max(mx, vec[i]);
     }
 
-    long long start = 1;
-    long long end = max_len;
-    long long result{};
+    ll start = 1;
+    ll end = mx;
+    ll result{};
 
     while (start <= end)
     {
-        long long mid = (start + end) / 2;
-        long long count{};
+        ll mid = (start + end) / 2;
+        ll count{};
 
         for (int i = 0; i < k; i++)
             count += vec[i] / mid;
 
         if (count >= n)
         {
-            result = mid;
             start = mid + 1;
+            result = mid;
         }
         else
             end = mid - 1;
+
     }
 
     cout << result;
+
     return 0;
 }
