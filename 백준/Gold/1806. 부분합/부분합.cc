@@ -15,21 +15,22 @@ int main(void)
     cin >> n >> s;
 
     vector<int> vec(n);
+
     for (int i = 0; i < n; i++)
         cin >> vec[i];
-
-    int total = vec[0];
+    
     int en{};
+    int total = vec[0];
 
     for (int i = 0; i < n; i++)
     {
         while (en < n && total < s)
         {
             en++;
-            if (en != n)
+            if(en != n)
                 total += vec[en];
         }
-        
+
         if (en == n)
             break;
 
@@ -41,5 +42,6 @@ int main(void)
         mn = 0;
 
     cout << mn;
+
     return 0;
 }
