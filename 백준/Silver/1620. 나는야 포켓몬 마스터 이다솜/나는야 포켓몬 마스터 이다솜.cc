@@ -12,10 +12,10 @@ int main()
 
     int n, m;
     cin >> n >> m;
-    
+
     unordered_map<string, int> s2i;
     vector<string> i2s(n+1);
-
+    
     for (int i = 1; i <= n; i++)
     {
         cin >> i2s[i];
@@ -24,14 +24,13 @@ int main()
 
     while (m--)
     {
-        string query;
-        cin >> query;
-
-        if (isdigit(query[0]))
-            cout << i2s[stoi(query)] << '\n';
+        string a{};
+        cin >> a;
+        if (isdigit(a[0]))
+            cout << i2s[stoi(a)] << '\n';
         else
-            cout << s2i[query] << '\n';
+            cout << s2i[a] << '\n';
     }
-
+    
     return 0;
 }
