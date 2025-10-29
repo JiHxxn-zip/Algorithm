@@ -21,14 +21,17 @@ int main()
 
         for (int i = 0; i < k; i++)
         {
-            char com;
-            cin >> com;
-            if (com == 'D')
+            char c;
+            cin >> c;
+
+            if (c == 'D')
             {
                 int q;
                 cin >> q;
+
                 if (ms.empty())
                     continue;
+
                 if (q == 1)
                     ms.erase(prev(ms.end()));
                 else
@@ -41,6 +44,7 @@ int main()
                 ms.insert(q);
             }
         }
+
         if (ms.empty())
             cout << "EMPTY\n";
         else
@@ -49,5 +53,3 @@ int main()
 
     return 0;
 }
-
-// d가 나왔을 떄를 구분
