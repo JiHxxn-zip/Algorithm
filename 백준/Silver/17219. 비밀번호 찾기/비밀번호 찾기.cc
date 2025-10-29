@@ -14,20 +14,20 @@ int main()
     cin >> n >> m;
 
     unordered_map<string, string> map;
+
+    string key{}, value{};
     for (int i = 0; i < n; i++)
     {
-        string a, b;
-        cin >> a >> b;
+        cin >> key >> value;
 
-        map[a] = b;
+        map.insert({key, value});
     }
 
+    string output{};
     for (int i = 0; i < m; i++)
     {
-        string a;
-        cin >> a;
-        cout << map[a] << '\n';
+        cin >> output;
+        cout << map[output] << '\n';
     }
     return 0;
 }
-
