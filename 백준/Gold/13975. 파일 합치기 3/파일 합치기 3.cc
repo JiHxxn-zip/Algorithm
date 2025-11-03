@@ -6,6 +6,7 @@ using namespace std;
 #include <string>
 
 typedef long long ll;
+
 int main()
 {
     ios::sync_with_stdio(false);
@@ -13,18 +14,19 @@ int main()
 
     int t;
     cin >> t;
-    
+
     while (t--)
     {
-        int k;
-        cin >> k;
-        priority_queue<ll, vector<ll>, greater<ll>> pq;
+        int n;
+        cin >> n;
 
-        ll a{};
-        for (int i = 0; i < k; i++)
+        priority_queue<ll, vector<ll>, greater<ll>> pq;
+        
+        ll num{};
+        for (ll i = 0; i < n; i++)
         {
-            cin >> a;
-            pq.push(a);
+            cin >> num;
+            pq.push(num);
         }
 
         ll answer{};
@@ -34,8 +36,8 @@ int main()
             pq.pop();
             ll b = pq.top();
             pq.pop();
-            answer += a + b;
 
+            answer += a + b;
             pq.push(a + b);
         }
         cout << answer << '\n';
