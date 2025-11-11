@@ -5,9 +5,6 @@ using namespace std;
 #include <queue>
 #include <string>
 
-vector<int> vec[1001];
-int deg[1001];
-
 int main()
 {
     ios::sync_with_stdio(false);
@@ -15,6 +12,9 @@ int main()
 
     int n, m;
     cin >> n >> m;
+
+    vector<int> vec[1001];
+    int deg[1001]{ 0 };
 
     while (m--)
     {
@@ -25,11 +25,14 @@ int main()
 
         for (int i = 0; i < num; i++)
             cin >> oder[i];
-    
-        for (int i = 0; i < num-1; i++)
+
+        for (int i = 0; i < num - 1; i++)
         {
-            vec[oder[i]].push_back(oder[i + 1]);
-            deg[oder[i + 1]]++;
+            int a = oder[i];
+            int b = oder[i + 1];
+
+            vec[a].push_back(b);
+            deg[b]++;
         }
     }
 
@@ -37,27 +40,26 @@ int main()
     for (int i = 1; i <= n; i++)
         if (deg[i] == 0)
             q.push(i);
+    
+    vector<int> result;
 
-
-    vector<int> oder;
     while (!q.empty())
     {
         int cur = q.front();
         q.pop();
 
-        oder.push_back(cur);
+        result.push_back(cur);
 
-        for (auto nx : vec[cur])
+        for (auto a : vec[cur])
         {
-            deg[nx]--;
-
-            if (deg[nx] == 0)
-                q.push(nx);
+            deg[a]--;
+            if (deg[a] == 0)
+                q.push(a);
         }
     }
 
-    if (oder.size() == n)
-        for (auto a : oder)
+    if (result.size() == n)
+        for (auto a : result)
             cout << a << '\n';
     else
         cout << 0;
