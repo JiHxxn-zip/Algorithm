@@ -8,9 +8,9 @@ using namespace std;
 #include <climits>
 #include <cctype> 
 
-int n;
-bool vis[9];
 int arr[9];
+bool vis[9];
+int n;
 
 void DFS(int depth)
 {
@@ -18,7 +18,7 @@ void DFS(int depth)
     {
         for (int i = 0; i < n; i++)
             cout << arr[i] << ' ';
-     
+        
         cout << '\n';
         return;
     }
@@ -28,8 +28,8 @@ void DFS(int depth)
         if (vis[i])
             continue;
 
-        vis[i] = true;
         arr[depth] = i;
+        vis[i] = true;
         DFS(depth + 1);
         vis[i] = false;
     }
@@ -43,7 +43,7 @@ int main()
     cin >> n;
 
     DFS(0);
-    
+
     return 0;
 }
 
