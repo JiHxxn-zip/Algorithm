@@ -6,6 +6,8 @@ using namespace std;
 #include <queue>
 #include <unordered_map>
 #include <climits>
+#include <cctype> 
+
 
 int main()
 {
@@ -29,7 +31,7 @@ int main()
 
     queue<int> q;
     q.push(1);
-    
+
     dist[1] = 0;
 
     while (!q.empty())
@@ -42,13 +44,13 @@ int main()
             if (dist[next] != -1)
                 continue;
 
-            dist[next] = dist[cur] + 1;
             q.push(next);
+            dist[next] = dist[cur] + 1;
         }
-       
     }
 
     cout << dist[n];
 
     return 0;
 }
+
