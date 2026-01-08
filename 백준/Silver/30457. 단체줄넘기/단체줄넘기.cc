@@ -18,15 +18,11 @@ int main()
     
     priority_queue<int, vector<int>, greater<int>> pq;
 
-    int mx{};
-
     for (int i = 0; i < n; i++)
     {
         int a;
         cin >> a;
         pq.push(a);
-
-        mx = max(mx, a);
     }
 
     int answer{};
@@ -50,4 +46,3 @@ int main()
 
     return 0;
 }
-
