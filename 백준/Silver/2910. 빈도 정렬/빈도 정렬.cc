@@ -1,63 +1,62 @@
+using namespace std;
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <string>
 #include <queue>
 #include <unordered_map>
+#include <climits>
+#include <cctype> 
 
-using namespace std;
 int main()
 {
     ios::sync_with_stdio(false);
-    cin.tie(0);
+    cin.tie(nullptr);
 
     int n, c;
     cin >> n >> c;
-
-    unordered_map<int, long long> map;
-    unordered_map<int, int> oder;
-
     
+    unordered_map<int, long long> map; // 번호, 빈도 수 저장
+    unordered_map<int, int> oder; // 해당 번호와 나온 순서 저장
+
     int idx{};
+
     for (int i = 0; i < n; i++)
     {
-        int a;
+        int a; 
         cin >> a;
 
         map[a]++;
+
         if (oder.find(a) == oder.end())
             oder[a] = idx++;
     }
 
-    // 갯수 값
-    vector<tuple<long long, int, long long>> sort_vec;
+    // 정렬을 위한 vector
+    vector<tuple<int, long long, int>> vec_Sort{}; // 번호, 나온 수, 나온 순서
 
-    for (auto& p : map)
-        sort_vec.push_back({ p.second, oder[p.first], p.first });
+    for (auto& a : map)
+    {
+        vec_Sort.push_back({ a.first, a.second, oder[a.first]});
+    }
 
-    
 
-    sort(sort_vec.begin(), sort_vec.end(), [](auto& a, auto& b)
+    sort(vec_Sort.begin(), vec_Sort.end(), [](auto& a, auto& b)
         {
-            if (get<0>(a) != get<0>(b))
-                return get<0>(a) > get<0>(b); // 빈도가 높은게 앞
+            if (get<1>(a) != get<1>(b))
+                return get<1>(a) > get<1>(b);
 
-            return get<1>(a) < get<1>(b);       // 먼저 나온게 앞
+            return get<2>(a) < get<2>(b);
         });
 
-    
-
-    // 출력
-    for (int i = 0; i < sort_vec.size(); i++)
+    for (auto& a : vec_Sort)
     {
-        for (int j = 0; j < get<0>(sort_vec[i]); j++)
+        for (int i = 0; i < get<1>(a); i++)
         {
-            cout << get<2>(sort_vec[i]) << ' ';
+            cout << get<0>(a) << ' ';
         }
     }
- 
+
     return 0;
 }
 
-// 주어지는 수열에서 많은 순으로 정렬 vec[]++
-// 먼저 나온 것이 앞에 있어야함
-// - 같은 갯수도 확인해야하고, 먼저 나온 것도 기억해야함
