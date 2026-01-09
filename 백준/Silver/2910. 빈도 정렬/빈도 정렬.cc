@@ -43,10 +43,10 @@ int main()
 
     sort(vec_Sort.begin(), vec_Sort.end(), [](auto& a, auto& b)
         {
-            if (get<1>(a) != get<1>(b))
-                return get<1>(a) > get<1>(b);
+            if (get<1>(a) == get<1>(b))
+                return get<2>(a) < get<2>(b);
 
-            return get<2>(a) < get<2>(b);
+            return get<1>(a) > get<1>(b);
         });
 
     for (auto& a : vec_Sort)
