@@ -3,41 +3,39 @@ using namespace std;
 #include <algorithm>
 #include <vector>
 #include <string>
-#include <deque>
 #include <queue>
-#include <climits>
-#include <cctype> 
-#include <iomanip>
+#include <climits> // INT_MAX
 
 typedef long long ll;
 
-int n;
-vector<ll> memo; 
+ll memo[36];
 
-ll DP(int k)
+ll DP(int x)
 {
-    if (k == 0)
-        return 1;
+	if (x == 0)
+		return 1;
 
-    if (memo[k] != -1)
-        return memo[k];
+	ll& ret = memo[x];
+	if (ret != -1)
+		return ret;
 
-    ll sum{};
-    for (int i = 0; i <= k-1; i++)
-        sum += DP(i) * DP(k - 1 - i);
+	ret = 0;
+	for (int i = 0; i < x; i++)
+		ret += DP(i) * DP(x - i - 1);
 
-    return memo[k] = sum;
+	return ret;
 }
 
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
 
-    cin >> n;
-    memo.assign(n + 1, -1);
+	int n;
+	cin >> n;
+	fill(begin(memo), end(memo), -1LL);
 
-    cout << DP(n);
-
-    return 0;
+	cout << DP(n);
+	return 0;
 }
