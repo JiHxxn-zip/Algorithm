@@ -7,9 +7,9 @@ using namespace std;
 #include <cctype> 
 #include <iomanip>
 #include <unordered_map>
-#include <set>
 
 typedef long long ll;
+
 
 int main()
 {
@@ -17,66 +17,35 @@ int main()
     cin.tie(0);
     cout.tie(0);
 
-    int N, M;
-    cin >> N >> M;
-    vector<int> A(N);
-    for (int i = 0; i < N; i++) cin >> A[i];
+    int n, m;
+    cin >> n >> m;
+    
+    vector<int> vec(n);
+    for (int i = 0; i < n; i++)
+        cin >> vec[i];
 
-    int need = (9 * M + 9) / 10; // ceil(9M/10)
-
-    unordered_map<int, int> cnt;
-    cnt.reserve(N * 2);
-
-    multiset<int> freqBag;
-
-    auto add = [&](int x) {
-        int old = cnt[x];
-        if (old > 0) {
-            auto it = freqBag.find(old);
-            if (it != freqBag.end()) freqBag.erase(it);
-        }
-        int now = ++cnt[x];
-        freqBag.insert(now);
-        };
-
-    auto removeOne = [&](int x) 
-        {
-        int old = cnt[x]; // old >= 1 보장
-        auto it = freqBag.find(old);
-        if (it != freqBag.end()) freqBag.erase(it);
-
-        int now = --cnt[x];
-        if (now == 0) {
-            cnt.erase(x);
-        }
-        else {
-            freqBag.insert(now);
-        }
-        };
-
-    // 초기 윈도우
-    for (int i = 0; i < M; i++) add(A[i]);
-
-    if (!freqBag.empty() && *freqBag.rbegin() >= need) 
+    unordered_map<int, int> maxValue;
+    int result{};
+    
+    // 첫 윈도우
+    for (int i = 0; i < m; i++)
     {
-        cout << "YES\n";
-        return 0;
+        maxValue[vec[i]]++;
+        result = max(result, maxValue[vec[i]]);
     }
 
-    // 슬라이딩
-    for (int i = M; i < N; i++) 
+    for (int i = 0; i < n-m; i++)
     {
-        removeOne(A[i - M]);
-        add(A[i]);
+        maxValue[vec[i]]--;
+        maxValue[vec[m + i]]++;
 
-        if (!freqBag.empty() && *freqBag.rbegin() >= need) 
-        {
-            cout << "YES\n";
-            return 0;
-        }
+        result = max(result, maxValue[vec[m + i]]);
     }
+    
+    if (result * 10 >= m * 9)
+        cout << "YES";
+    else
+        cout << "NO";
 
-    cout << "NO\n";
     return 0;
 }
- 
