@@ -1,47 +1,50 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <climits>
 using namespace std;
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include <climits>
+#include <cctype> 
+#include <iomanip>
 
-int mn = INT_MAX;
+typedef long long ll;
 
-int main(void)
+int main()
 {
-    ios::sync_with_stdio(0);
+    ios::sync_with_stdio(false);
     cin.tie(0);
+    cout.tie(0);
 
     int n, s;
     cin >> n >> s;
 
     vector<int> vec(n);
-
     for (int i = 0; i < n; i++)
         cin >> vec[i];
-    
-    int en{};
-    int total = vec[0];
 
-    for (int i = 0; i < n; i++)
+    int en{}, total = vec[0];
+    int answer = INT_MAX;
+    
+    for (int st = 0; st < n; st++)
     {
         while (en < n && total < s)
         {
             en++;
-            if(en != n)
+            if (en != n)
                 total += vec[en];
         }
 
         if (en == n)
             break;
 
-        mn = min(mn, en - i + 1);
-        total -= vec[i];
+        answer = min(answer, en - st + 1);
+        total -= vec[st]; // 이동할 걸 대비해 빼줌
     }
 
-    if (mn == INT_MAX)
-        mn = 0;
+    if (answer == INT_MAX)
+        answer = 0;
 
-    cout << mn;
+    cout << answer;
 
     return 0;
 }
