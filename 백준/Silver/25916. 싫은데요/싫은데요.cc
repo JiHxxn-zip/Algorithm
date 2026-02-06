@@ -15,38 +15,29 @@ int main()
     cin.tie(0);
     cout.tie(0);
 
-    int n;
-    ll m;
+    int n, m;
     cin >> n >> m;
+    
+    vector<ll> vec(n);
+    for (int i = 0; i < n; i++)
+        cin >> vec[i];
 
-    vector<long long> a(n);
-    for (int i = 0; i < n; i++) 
-        cin >> a[i];
+    int en{};
+    ll answer{}, total{};
 
-    ll ans = 0;
-    ll sum = 0;
-    int r = 0;
-
-    for (int l = 0; l < n; l++) 
+    for (int st = 0; st < n; st++)
     {
-        while (r < n && sum + a[r] <= m) 
+        while (en < n && total + vec[en] <= m)
         {
-            sum += a[r];
-            r++;
+            total += vec[en];
+            en++;
         }
-        ans = max(ans, sum);
 
-        // 다음 l로 이동: 현재 l을 구간에서 제거
-        if (r == l) 
-        {
-            // 구간이 비어있고 a[l] 자체가 m 초과인 경우 등
-            r++;
-        }
-        else 
-            sum -= a[l];
+        answer = max(answer, total);
+        total -= vec[st];
     }
 
-    cout << ans;
+    cout << answer;
+
     return 0;
 }
- 
