@@ -9,46 +9,30 @@ using namespace std;
 #include <unordered_map>
 
 typedef long long ll;
-int n;
-vector<int> vec;
-vector<int> memo;
-
-int DP(int i)
-{
-    int& ret = memo[i];
-    if (ret != -1)
-        return ret;
-
-    ret = 1;
-
-    for (int j = 0; j < i; ++j)
-    {
-        if (vec[i] > vec[j])
-            ret = max(ret, 1 + DP(j));
-    }
-
-    return ret;
-}
 
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(0);
     cout.tie(0);
-
+    
+    int n;
     cin >> n;
 
-    vec.assign(n, 0);
+    vector<int> vec;
     for (int i = 0; i < n; i++)
-        cin >> vec[i];
-    
-    memo.assign(n, -1);
-    
-    int answer{};
-    for (int i = 0; i < n; i++)
-        answer = max(answer, DP(i));
+    {
+        int x;
+        cin >> x;
 
-    cout << answer;
+        auto it = lower_bound(vec.begin(), vec.end(), x);
+        if (it == vec.end())
+            vec.push_back(x);
+        else
+            *it = x;
+    }
 
+    cout << vec.size();
+   
     return 0;
 }
