@@ -6,7 +6,6 @@ using namespace std;
 #include <limits>
 #include <cctype> 
 #include <iomanip>
-#include <unordered_map>
 
 typedef long long ll;
 
@@ -18,7 +17,7 @@ int main()
     
     int n;
     cin >> n;
-
+   
     vector<int> vec;
     for (int i = 0; i < n; i++)
     {
@@ -33,6 +32,6 @@ int main()
     }
 
     cout << vec.size();
-   
+    
     return 0;
 }
