@@ -1,38 +1,45 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <climits>
 using namespace std;
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include <limits>
+#include <cctype> 
+#include <iomanip>
+#include <queue>
 
-int mn = INT_MAX;
+typedef long long ll;
 
-int main(void)
+int main()
 {
-    ios::sync_with_stdio(0);
+    ios::sync_with_stdio(false);
     cin.tie(0);
-
+    cout.tie(0);
+    
     int n, m;
     cin >> n >> m;
-
+   
     vector<int> vec(n);
     for (int i = 0; i < n; i++)
         cin >> vec[i];
-
+   
     sort(vec.begin(), vec.end());
-    
+
     int en{};
-    for (int i = 0; i < n; i++)
+    int answer = numeric_limits<int>::max();
+    
+    for (int st = 0; st < n; st++)
     {
-        while (en < n && vec[en] - vec[i] < m)
+        while (en < n && vec[en] - vec[st] < m)
             en++;
 
         if (en == n)
             break;
 
-        mn = min(mn, vec[en] - vec[i]);
+        answer = min(answer, vec[en] - vec[st]);
     }
 
-    cout << mn;
+    cout << answer;
 
     return 0;
 }
