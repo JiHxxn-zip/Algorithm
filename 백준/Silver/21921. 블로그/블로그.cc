@@ -2,11 +2,6 @@ using namespace std;
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include <string>
-#include <climits> // INT_MAX
-#include <iomanip> // 소숫점 제한
-
-using ll = long long;
 
 int main()
 {
@@ -17,35 +12,38 @@ int main()
 	int n, x;
 	cin >> n >> x;
 
-	vector<int> vec(n);
-	for (int i = 0; i < n; i++)
-		cin >> vec[i];
+	vector<int> vec(n); 
+	for (int i = 0; i < n; i++) 
+	{ 
+		int y; 
+		cin >> y; 
+		if (i == 0) 
+			vec[i] = y; 
+		else 
+			vec[i] = y + vec[i - 1]; 
+	}
 
-	int sum{};
-	for (int i = 0; i < x; i++)
-		sum += vec[i];
-
-	int maxSum{sum};
-	int count{1};
-
-	// 슬라이딩 윈도우
-	for (int i = x; i < n; i++)
+	int answer{}, sum{}, count{1};
+	for (int i = 0; i <= n - x; i++)
 	{
-		sum += vec[i];
-		sum -= vec[i - x];
-
-		if (sum == maxSum)
+		if (i == 0)
+			sum = vec[x - 1];
+		else
+			sum = vec[i + x - 1] - vec[i - 1];		
+		
+		if (sum == answer)
 			count++;
-		else if (sum > maxSum)
+		else if(sum > answer)
 		{
-			maxSum = sum;
-			count = 1;   
+			answer = sum;
+			count = 1;
 		}
 	}
 
-	if (maxSum == 0)
+	if (answer == 0)
 		cout << "SAD";
 	else
-		cout << maxSum << '\n' << count;
+		cout << answer << '\n' << count;
+
 	return 0;
 }
