@@ -19,48 +19,49 @@ int main()
     int n;
     cin >> n;
 
-    vector<vector<pair<int, int>>> graph(n + 1);
+    vector<vector<pair<int, int>>> vec(n+1);
 
-    for (int i = 0; i < n - 1; i++)
+    for (int i = 0; i < n-1; i++)
     {
         int a, b, c;
         cin >> a >> b >> c;
 
-        graph[a].push_back({ b, c });
-        graph[b].push_back({ a, c });
+        vec[a].push_back({ b,c });
+        vec[b].push_back({ a,c });
     }
-
-    vector<bool> visited(n + 1, false);
-    vector<ll> dist(n + 1, 0);
 
     queue<int> q;
     q.push(1);
-    visited[1] = true;
 
-    ll maxDist = 0;
+    vector<bool> vis(n+1, false);
+    vis[1] = true;
+
+    vector<ll> dist(n + 1, 0);
+
+    ll answer{};
 
     while (!q.empty())
     {
         int cur = q.front();
         q.pop();
 
-        for (auto& next : graph[cur])
+        for (auto& next : vec[cur])
         {
-            int nextNode = next.first;
-            int weight = next.second;
+            int nx = next.first;
+            int w = next.second;
 
-            if (!visited[nextNode])
-            {
-                visited[nextNode] = true;
-                dist[nextNode] = dist[cur] + weight;
-                q.push(nextNode);
+            if (vis[nx])
+                continue;
 
-                maxDist = max(maxDist, dist[nextNode]);
-            }
+            q.push(nx);
+            dist[nx] = dist[cur] + w;
+            vis[nx] = true;
+
+            answer = max(answer, dist[nx]);
         }
     }
 
-    cout << maxDist;
+    cout << answer;
 
     return 0;
 }
