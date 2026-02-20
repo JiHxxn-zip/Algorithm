@@ -3,15 +3,12 @@ using namespace std;
 #include <algorithm>
 #include <vector>
 #include <string>
-#include <unordered_map>
-#include <climits>
+#include <limits>
 #include <cctype> 
 #include <iomanip>
-#include <deque>
 
 typedef long long ll;
 
-ll n;
 vector<ll> memo;
 
 ll DP(int x)
@@ -22,8 +19,9 @@ ll DP(int x)
     ll& ret = memo[x];
     if (ret != -1)
         return ret;
-
+    
     ret = 1;
+
     for (int i = 1; i <= x/2; i++)
         ret += DP(i);
 
@@ -38,9 +36,12 @@ int main()
 
     int t;
     cin >> t;
+
     while (t--)
     {
+        int n;
         cin >> n;
+
         memo.assign(1001, -1);
         cout << DP(n) << '\n';
     }
