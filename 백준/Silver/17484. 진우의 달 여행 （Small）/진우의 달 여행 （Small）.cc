@@ -3,64 +3,61 @@ using namespace std;
 #include <algorithm>
 #include <vector>
 #include <unordered_map>
-#include <string>
-#include <limits> // INT_MAX
-#include <iomanip> // 소숫점 제한
-#include <cstring> // memset
+#include <limits>
+#include <cctype> 
+#include <iomanip>
 
-using ll = long long;
+typedef long long ll;
 
 int n, m;
 vector<vector<int>> vec;
-int memo[1001][1001][4];
+vector<vector<vector<int>>> memo;
 
 int DP(int row, int col, int prevDir)
 {
-	if (col < 0 || col >= m)
-		return numeric_limits<int>::max();
+    if (col < 0 || col >= m)
+        return numeric_limits<int>::max();
 
-	if (row == n - 1)
-		return vec[row][col];
+    if (row == n - 1)
+        return vec[row][col];
 
-	int& ret = memo[row][col][prevDir];
-	if (ret != -1)
-		return ret;
+    int& ret = memo[row][col][prevDir];
+    if (ret != -1)
+        return ret;
+    
+    ret = numeric_limits<int>::max();
 
-	ret = numeric_limits<int>::max();
+    if (prevDir != 0)
+        ret = min(ret, DP(row + 1, col - 1, 0));
+    if (prevDir != 1)
+        ret = min(ret, DP(row + 1, col, 1));
+    if (prevDir != 2)
+        ret = min(ret, DP(row + 1, col + 1, 2));
 
-	// 0 = 왼쪽, 1 = 중앙, 2 = 오른쪽
-	if (prevDir != 0)
-		ret = min(ret, DP(row + 1, col - 1, 0));
-
-	if (prevDir != 1)
-		ret = min(ret, DP(row + 1, col, 1));
-
-	if (prevDir != 2)
-		ret = min(ret, DP(row + 1, col + 1, 2));
-
-	return ret += vec[row][col];
+    return ret += vec[row][col];
 }
 
 int main()
 {
-	ios::sync_with_stdio(false);
-	cin.tie(0);
-	cout.tie(0);
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+   
+    cin >> n >> m;
+    
+    vec.assign(n, vector<int>(m, 0));
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            cin >> vec[i][j];
 
-	cin >> n >> m;
+    memo.assign(n, vector<vector<int>>(m, vector<int>(200, -1)));
 
-	vec.assign(n, vector<int>(m));
-	for (int i = 0; i < n; i++)
-		for (int j = 0; j < m; j++)
-			cin >> vec[i][j];
+    int answer = numeric_limits<int>::max();
+    for (int i = 0; i < m; i++)
+        answer = min(answer, DP(0, i, 3));
 
-	memset(memo, -1, sizeof(memo));
-
-	int minAnswer = numeric_limits<int>::max();
-	for (int i = 0; i < m; i++)
-		minAnswer = min(minAnswer, DP(0, i, 3));
-	
-	cout << minAnswer;
-
-	return 0;
+    cout << answer;
+    return 0;
 }
+
+// 아래로 3방향을 움직이고 이전 방향과 달라야하며, min값 추출
