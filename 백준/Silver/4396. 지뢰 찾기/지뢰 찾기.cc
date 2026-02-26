@@ -10,7 +10,7 @@ using namespace std;
 
 typedef long long ll;
 
-int dx[8]{0, 0, -1, 1, -1, 1, -1, 1};
+int dx[8]{ 0, 0, -1, 1, -1, 1, -1, 1 };
 int dy[8]{ 1, -1, 0, 0, 1, 1, -1, -1 };
 
 int main()
@@ -25,49 +25,47 @@ int main()
     vector<string> board(n);
     for (int i = 0; i < n; i++)
         cin >> board[i];
-    
-    vector<string> resultBoard(n);
+
+    vector<string> inputBoard(n);
     for (int i = 0; i < n; i++)
-        cin >> resultBoard[i];
+        cin >> inputBoard[i];
+
+    bool isExplosion{ false };
+    for (int i = 0; i < i; i++)
+        for (int j = 0; j < n; j++)
+            if (inputBoard[i][j] == 'x' && board[i][j] == '*')
+                isExplosion = true;
 
     vector<string> result(n, string(n, '.'));
-    bool exploded{ false };
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            if (resultBoard[i][j] == 'x' && board[i][j] == '*')
-                exploded = true;
-
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            if (resultBoard[i][j] == 'x' && board[i][j] == '*') 
-                exploded = true;
+            if (inputBoard[i][j] == 'x' && board[i][j] == '*')
+                isExplosion = true;
 
-            // 하나씩 비교
-            char cur = resultBoard[i][j];
-            int count{};
-
-            if (cur == 'x')
+            if (inputBoard[i][j] == 'x')
             {
+                int count{};
                 for (int k = 0; k < 8; k++)
                 {
-                    int nx = j + dx[k];
-                    int ny = i + dy[k];
-                    if (nx < 0 || nx >= n || ny < 0 || ny >= n)
+                    int nx = dx[k] + j;
+                    int ny = dy[k] + i;
+
+                    if (nx >= n || nx < 0 || ny >= n || ny < 0)
                         continue;
-                    if (board[ny][nx] == '*')
+
+                    if(board[ny][nx] == '*')
                         count++;
                 }
                 result[i][j] = count + '0';
             }
             else
-                result[i][j] = resultBoard[i][j];
-            
+                result[i][j] = inputBoard[i][j];
         }
     }
-    
-    if (exploded)
+
+    if (isExplosion)
     {
         for (int i = 0; i < n; i++)
         {
@@ -78,11 +76,9 @@ int main()
             }
         }
     }
-    
 
     for (int i = 0; i < n; i++)
     {
         cout << result[i] << '\n';
     }
-    return 0;
 }
