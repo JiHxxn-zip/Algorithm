@@ -2,17 +2,19 @@ using namespace std;
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include <string>
 #include <set>
+#include <string>
 #include <limits>
-#include <iomanip> // 소숫점 제한
+#include <cctype> 
+#include <iomanip>
 
+typedef long long ll;
 
 int main()
 {
-	ios::sync_with_stdio(false);
-	cin.tie(0);
-	cout.tie(0);
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
 
     int n;
     cin >> n;
@@ -20,30 +22,29 @@ int main()
     int A, B;
     cin >> A >> B;
 
-    vector<pair<int,int>> points(n);
-    set<pair<int, int>> s;
-
-    for (int i = 0; i < n; i++) 
+    vector<pair<int, int>> vec(n);
+    set<pair<int, int>> set;
+    for (int i = 0; i < n; i++)
     {
-        cin >> points[i].first >> points[i].second;
-        s.insert(points[i]);
+        cin >> vec[i].first >> vec[i].second;
+        set.insert(vec[i]);
     }
 
     int count{};
 
-    for (int i = 0; i < n; i++) 
+    for (int i = 0; i < n; i++)
     {
-        int x = points[i].first;
-        int y = points[i].second;
+        int x = vec[i].first;
+        int y = vec[i].second;
 
-        if (s.find({ x + A, y }) != s.end() &&
-            s.find({ x, y + B }) != s.end() &&
-            s.find({ x + A, y + B }) != s.end()) 
+        if (set.find({ x + A, y }) != set.end() &&
+            set.find({ x, y + B }) != set.end() &&
+            set.find({ x + A, y + B }) != set.end())
         {
             count++;
         }
     }
 
     cout << count;
-	return 0;
+    return 0;
 }
