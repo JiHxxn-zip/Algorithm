@@ -14,37 +14,31 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(0);
     cout.tie(0);
-
-    // 친구 n명, 식당 m개
+    
     int n, m;
     cin >> n >> m;
 
-    vector<vector<int>> vec(n, vector<int>(m));
-    vector<int> maxVec(n);
+    vector<vector<int>> vec(n, vector<int>(m, 0));
+    vector<int> maxSco(n, 0);
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < m; j++)
         {
             cin >> vec[i][j];
-            maxVec[i] = max(maxVec[i], vec[i][j]);
+            maxSco[i] = max(maxSco[i], vec[i][j]);
         }
     }
 
-    
+    vector<int> count(m);
     for (int i = 0; i < m; i++)
     {
-        int count{};
-        
         for (int j = 0; j < n; j++)
         {
-            if (vec[j][i] < maxVec[j])
-                count++;
+            if(vec[j][i] < maxSco[j])
+                count[i]++;
         }
-
-        cout << count << ' ';
+        cout << count[i] << ' ';
     }
-
-
 
     return 0;
 }
