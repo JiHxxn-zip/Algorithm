@@ -2,10 +2,11 @@ using namespace std;
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include <string>
-#include <set>
 #include <limits>
-#include <iomanip> // 소숫점 제한
+#include <cctype> 
+#include <iomanip>
+
+typedef long long ll;
 
 
 int main()
@@ -13,13 +14,12 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(0);
     cout.tie(0);
-
-    // 집, 길, 피자
+    
+    // 집, 길, 횟수
     int n, m, q;
     cin >> n >> m >> q;
 
     vector<vector<int>> vec(n + 1);
-
     for (int i = 0; i < m; i++)
     {
         int a, b;
@@ -28,37 +28,38 @@ int main()
         vec[b].push_back(a);
     }
 
-    vector<bool> vis(n + 1, false);
-    vector<bool> firstVis(n + 1, false);
-
-    for (int i = 0; i < q; i++)
+    vector<bool> vec_Chack(n+1, false);
+    vector<bool> firstChack(n+1, false);
+    while (q--)
     {
-        int s;
-        cin >> s;
+        int x;
+        cin >> x;
 
-        if (firstVis[s])
+        if (firstChack[x])
         {
             cout << 0 << '\n';
             continue;
         }
 
-        firstVis[s] = true;
-        int count{};
+        firstChack[x] = true;
 
-        if (!vis[s])
+        int cnt{};
+        if (!vec_Chack[x])
         {
-            vis[s] = true;
-            count++;
+            vec_Chack[x] = true;
+            cnt++;
         }
-        for (auto& x : vec[s])
+
+        for (auto& a : vec[x])
         {
-            if (!vis[x])
+            if (!vec_Chack[a])
             {
-                vis[x] = true;
-                count++;
+                vec_Chack[a] = true;
+                cnt++;
             }
         }
-        cout << count << '\n';
+
+        cout << cnt << '\n';
     }
 
     return 0;
