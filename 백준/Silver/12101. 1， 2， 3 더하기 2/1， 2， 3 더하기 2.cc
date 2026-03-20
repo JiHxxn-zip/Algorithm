@@ -2,12 +2,17 @@ using namespace std;
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <limits>
+#include <cctype> 
+#include <iomanip>
+
+typedef long long ll;
 
 int n, k;
 int cnt = 0;
-bool found = false;
+int found = false;
 
-void DFS(int sum, vector<int>& path)
+void DFS(int sum, vector<int>& vec)
 {
     if (found)
         return;
@@ -20,22 +25,22 @@ void DFS(int sum, vector<int>& path)
         cnt++;
         if (cnt == k)
         {
-            for (int i = 0; i < path.size(); i++)
+            for (int i = 0; i < vec.size(); i++)
             {
-                cout << path[i];
-                if (i != path.size() - 1)
-                    cout << "+";
+                cout << vec[i];
+                if (i != vec.size() - 1)
+                    cout << '+';
             }
             found = true;
         }
         return;
     }
 
-    for (int i = 1; i <= 3 ; i++)
+    for (int i = 1; i <= 3; i++)
     {
-        path.push_back(i);
-        DFS(sum + i, path);
-        path.pop_back();
+        vec.push_back(i);
+        DFS(sum + i, vec);
+        vec.pop_back();
     }
 }
 
@@ -44,11 +49,11 @@ int main()
     ios::sync_with_stdio(false);
     cin.tie(0);
     cout.tie(0);
-
+    
     cin >> n >> k;
 
-    vector<int> path;
-    DFS(0, path);
+    vector<int> vec;
+    DFS(0, vec);
 
     if (!found)
         cout << -1;
