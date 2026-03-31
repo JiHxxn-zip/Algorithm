@@ -16,24 +16,21 @@ int main()
 
     int n, d;
     cin >> n >> d;
-
     vector<int> vec(n);
     for (int i = 0; i < n; i++)
-    {
         cin >> vec[i];
-    }
-    sort(vec.rbegin(), vec.rend());
+    sort(vec.begin(), vec.end());
 
     deque<pair<int, int>> dq;
     for (int i = 0; i < n; i++)
     {
-        if (!dq.empty() && dq.back().first == vec[i])
+        if (!dq.empty() && dq.front().first == vec[i])
         {
-            dq.back().second++;
+            dq.front().second++;
             continue;
         }
 
-        dq.push_back({vec[i], 1});
+        dq.push_front({ vec[i], 1 });
     }
 
     ll count{};
@@ -44,16 +41,16 @@ int main()
 
         auto cur = dq.front();
         dq.pop_front();
-        count += cur.second;
 
-        int nextHeight = cur.first - 1;
+        count += cur.second;
+        ll nextHeight = cur.first - 1;
 
         if (nextHeight == 0)
-            dq.push_back({ 0, cur.second });
-        else if (!dq.empty() && dq.front().first == nextHeight)
+            dq.push_front({ 0, cur.second });
+        else if (!dq.empty() && nextHeight == dq.front().first)
             dq.front().second += cur.second;
         else
-            dq.push_front({nextHeight, cur.second});
+            dq.push_front({ nextHeight, cur.second });
     }
 
     cout << count;
