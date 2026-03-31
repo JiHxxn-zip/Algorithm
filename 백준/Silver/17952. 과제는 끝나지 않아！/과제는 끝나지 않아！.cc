@@ -19,27 +19,21 @@ int main()
 
     stack<pair<int, int>> s;
     int count{};
-    while (n--)
+    for (int i = 0; i < n; i++)
     {
-        int m;
-        cin >> m;
+        int x;
+        cin >> x;
 
-        if (m == 1)
+        if (x == 1)
         {
-            int score, time;
-            cin >> score >> time;
-            s.push({ score, time - 1 });
+            int a, t;
+            cin >> a >> t;
+            s.push({a, --t});
         }
         else
         {
-            // 현재 1분 추가 적립
-            if (!s.empty())
-            {
-                auto cur = s.top();
-                s.pop();
-                cur.second -= 1;
-                s.push(cur);
-            }
+            if(!s.empty())
+                s.top().second--;
         }
 
         if (!s.empty() && s.top().second == 0)
@@ -48,7 +42,7 @@ int main()
             s.pop();
         }
     }
-
     cout << count;
+
     return 0;
 }
