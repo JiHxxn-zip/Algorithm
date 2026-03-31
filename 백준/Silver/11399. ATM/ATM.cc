@@ -19,17 +19,17 @@ int main()
 
     vector<int> vec(n);
     for (int i = 0; i < n; i++)
-    {
         cin >> vec[i];
-    }
+  
     sort(vec.begin(), vec.end());
 
-    int result{}, count{};
+    int sum{}, temp{};
     for (int i = 0; i < n; i++)
     {
-        count += vec[i];
-        result += count;
+        temp += vec[i];
+        sum += temp;
     }
-    cout << result;
+    cout << sum;
+
     return 0;
 }
