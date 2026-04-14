@@ -1,40 +1,38 @@
-#include <iostream>
 #include <vector>
+
 using namespace std;
-
-// DFS 함수 : n, computers, 현재 위치
-void DFS(int n, vector<vector<int>> computers, int cur);
-bool vis[201];
-
-int solution(int n, vector<vector<int>> computers) 
-{
-    int answer = 0;
-
-    // 전수 검사를 위해 n 만큼 DFS 작동
-    for (size_t i = 0; i < n; i++)
-    {
-        // 방문하지 않은 컴퓨터일 경우 DFS 작동
-        if (!vis[i])
-        {
-            DFS(n, computers, i);
-            ++answer;
-        }
-    }
-
-    return answer;
-}
+int vis[201];
 
 void DFS(int n, vector<vector<int>> computers, int cur)
 {
     vis[cur] = true;
-
-    // 
-    for (size_t i = 0; i < n; i++)
+    
+    for(int i = 0; i < n; ++i)
     {
-        // 현재 루프의 컴퓨터가 방문하지 않았고, 현재 함수 내부의 컴퓨터는 방문을 한 상태일 경우
-        if (!vis[i] && computers[cur][i] == 1)
+        // 방문 안한 컴퓨터와 현재 컴퓨터가 1로 체크된 컴퓨터
+        if(!vis[i] && computers[cur][i] == 1)
         {
+            // 서로 묶어서 방문 체크되기 때문에 갯수 카운트 안됨
             DFS(n, computers, i);
         }
     }
 }
+
+int solution(int n, vector<vector<int>> computers) 
+{
+    int answer = 0;
+    
+    // 컴퓨터마다 방문 체크
+    for(int i = 0; i < n; ++i)
+    {
+        if(!vis[i])
+        {
+            DFS(n, computers, i);
+            answer++;
+        }
+    }
+    
+    return answer;
+}
+
+// 벡터들의 인덱스들끼리 서로 맞닿아있다면 Count++
